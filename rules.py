@@ -5,7 +5,7 @@ allow_rule = {
     },
     "grantee": {
         "type": "INDIVIDUAL",
-        "id": "270",
+        "id": "122",
         "orgId": "ZMC"
     },
     "access": [
@@ -24,7 +24,7 @@ allow_rule_2 = {
     },
     "grantee": {
         "type": "INDIVIDUAL",
-        "id": "270",
+        "id": "122",
         "orgId": "ZMC"
     },
     "access": [
@@ -46,7 +46,7 @@ allow_rule_3 = {
     },
     "grantee": {
         "type": "INDIVIDUAL",
-        "id": "270",
+        "id": "122",
         "orgId": "ZMC"
     },
     "access": [
@@ -65,7 +65,7 @@ deny_rule = {
     },
     "grantee": {
         "type": "INDIVIDUAL",
-        "id": "270",
+        "id": "122",
         "orgId": "ZMC"
     },
     "access": [

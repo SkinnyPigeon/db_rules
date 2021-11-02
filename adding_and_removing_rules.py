@@ -24,12 +24,17 @@ def create_rule(jwt, rule):
 # print(rule_id_3)
 # print(rule_id_4)
 
-allow_rule_id = 'RULE_8e87c6bb-1166-4463-86b9-a8536c917a5c'
-allow_rule_id_2 = 'RULE_8985ec49-b6d8-4054-8556-8d41ece8890e'
-allow_rule_id_3 = 'RULE_2a95ab90-fcee-4801-8f90-55dae9550292'
-deny_rule_id = 'RULE_f11f763b-b32d-4104-8c70-b39f39d9656f'
-deny_rule_id_2 = 'RULE_80cee90a-3414-4505-818c-822844baa842'
-allow_department_id = 'RULE_c2082153-b5cf-4c67-8a85-036c973dd8d3'
+# rule_1 = {'status_code': 200, 'body': {'ruleId': 'RULE_9d364b02-cc49-4baf-8034-3e29f979848d'}}
+# rule_2 = {'status_code': 200, 'body': {'ruleId': 'RULE_799266fa-598c-4670-8704-09551fb12821'}}
+# rule_3 = {'status_code': 200, 'body': {'ruleId': 'RULE_7d3ab616-ecba-4214-8716-11cacbe99267'}}
+# rule_4 = {'status_code': 200, 'body': {'ruleId': 'RULE_b0ab9a85-f811-4c00-8e2d-989635d0702e'}}
+
+# allow_rule_id = 'RULE_8e87c6bb-1166-4463-86b9-a8536c917a5c'
+# allow_rule_id_2 = 'RULE_8985ec49-b6d8-4054-8556-8d41ece8890e'
+# allow_rule_id_3 = 'RULE_2a95ab90-fcee-4801-8f90-55dae9550292'
+# deny_rule_id = 'RULE_f11f763b-b32d-4104-8c70-b39f39d9656f'
+# deny_rule_id_2 = 'RULE_80cee90a-3414-4505-818c-822844baa842'
+# allow_department_id = 'RULE_c2082153-b5cf-4c67-8a85-036c973dd8d3'
 
 def del_rule(jwt, rule_id):
     url = f"http://localhost:30001/v1/api/rule/{rule_id}"

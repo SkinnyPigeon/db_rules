@@ -9,11 +9,17 @@ print(response)
 jwt = response['body']['resource_obj']['access']
 print(validate_jwt(jwt))
 
-# response = create_rule(jwt, allow_department_rule)
+# response = create_rule(jwt, allow_rule)
 # print(response)
+# response2 = create_rule(jwt, allow_rule_2)
+# print(response2)
+# response3 = create_rule(jwt, allow_rule_3)
+# print(response3)
+# response4 = create_rule(jwt, deny_rule)
+# print(response4)
 
 
-staff_response = check_staff_member(jwt)
+# staff_response = check_staff_member(jwt)
 # print(staff_response)
 
 # check_staff_member(jwt, hospital='ZMC')
@@ -46,7 +52,7 @@ def get_rules(jwt, grantor_id, grantee_id):
     response = requests.request('POST', url, headers=headers, json=data)
     return response.json()
 
-# check = get_rules(jwt, 118, 270)
+# check = get_rules(jwt, 118, 122)
 # print(check)
 
 def sum_up_rules(rules):
