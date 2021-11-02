@@ -14,9 +14,11 @@ jwt = response['body']['resource_obj']['access']
 
 
 staff_response = check_staff_member(jwt)
-# print(response)
+# print(staff_response)
 
 # check_staff_member(jwt, hospital='ZMC')
+
+# def validate_rules(jwt)
 
 def get_rules(jwt, grantor_id, grantee_id):
     url = 'http://localhost:30001/v1/api/getRules'
@@ -25,7 +27,8 @@ def get_rules(jwt, grantor_id, grantee_id):
         "Content-Type": "application/json"
     }
     data = {
-        "filters": [{
+        "filters": [
+            {
                 "filterType": "SIMPLE",
                 "key": "grantor.id",
                 "value": grantor_id
@@ -44,28 +47,8 @@ def get_rules(jwt, grantor_id, grantee_id):
     response = requests.request('POST', url, headers=headers, json=data)
     return response.json()
 
-def get_all_rules(jwt, grantor_id):
-    url = 'http://localhost:30001/v1/api/getRules'
-    headers = {
-        "Authorization": f"Bearer {jwt}",
-        "Content-Type": "application/json"
-    }
-    data = {
-        "filters": [{
-                "filterType": "SIMPLE",
-                "key": "grantor.id",
-                "value": grantor_id
-            },
-            {
-                "filterType": "NOT_EXPIRED"
-            }
-        ]
-    }
-    response = requests.request('POST', url, headers=headers, json=data)
-    return response.json()
-
-# response = get_all_rules(jwt, 118)
-# print(response)
+check = get_rules(jwt, 118, 270)
+print(check)
 
 def sum_up_rules(rules):
     allow_tags = set()
@@ -88,6 +71,18 @@ def sum_up_rules(rules):
 
 def validate_doctor(group_ids):
     if 'MEDICAL_STAFF' in group_ids:
+        return True
+    else:
+        return False
+
+def validate_admin(group_ids):
+    if 'MEDICAL_ADMIN' in group_ids:
+        return True
+    else:
+        return False
+
+def validate_patient(group_ids):
+    if 'PATIENT' in group_ids:
         return True
     else:
         return False

@@ -33,12 +33,21 @@ def get_staff_tables(jwt, hospital):
 
 
 def check_staff_member(jwt):
+    id_and_department = {}
     jwt_response = validate_jwt(jwt)
-    print(jwt_response)
+    # print(jwt_response)
     if jwt_response['status_code'] == 200 and 'PATIENT' not in jwt_response['body']['groupIDs']:
         hospital = jwt_response['body']['orgID']
-        print(hospital)
-        pass
+        staff_response = get_staff_tables(jwt, hospital)
+        # print(staff_response)
+        if staff_response['status_code'] == 200:
+            for staff_member in staff_response['body']:
+                if jwt_response['body']['userID'] == staff_member['serums_id']:
+                    id_and_department['id'] = jwt_response['body']['userID']
+                    id_and_department['department'] = staff_member['department_id']
     else:
         print(jwt_response['body']['groupIDs'])
-    # staff_response = get_staff_tables()
+    if bool(id_and_department):
+        return id_and_department
+    else:
+        return False
