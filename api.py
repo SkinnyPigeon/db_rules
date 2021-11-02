@@ -1,3 +1,5 @@
+import requests
+
 jwts = {
     'ustan': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM2NDQ1ODczLCJqdGkiOiIyZGU4MTYxZGVkNjc0OGFiYjNmMzM0ZDdmMjBhOTA2ZSIsInVzZXJJRCI6MTE3LCJpc3MiOiJTZXJ1bXNBdXRoZW50aWNhdGlvbiIsImlhdCI6MTYzNTg0MTA3Mywic3ViIjoicHBwMUB1c3Rhbi5jb20iLCJncm91cElEcyI6WyJQQVRJRU5UIl0sIm9yZ0lEIjoiVVNUQU4iLCJkZXB0SUQiOm51bGwsImRlcHROYW1lIjpudWxsLCJzdGFmZklEIjpudWxsLCJuYW1lIjpudWxsLCJhdWQiOiJodHRwczovL3NoY3Muc2VydW1zLmNzLnN0LWFuZHJld3MuYWMudWsvIn0.ENfiS5_mSIuvvrKEfTPDC9sQjZQb63L_FLix2Gk58_Q',
     'fcrb': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM2NDQ2MTM2LCJqdGkiOiI4NmU1ZjFkZTBhZGU0MWNkYjZjYTM0MzFkYmIzOGJjOSIsInVzZXJJRCI6MTE5LCJpc3MiOiJTZXJ1bXNBdXRoZW50aWNhdGlvbiIsImlhdCI6MTYzNTg0MTMzNiwic3ViIjoicHBwMUBmY3JiLmNvbSIsImdyb3VwSURzIjpbIlBBVElFTlQiXSwib3JnSUQiOiJGQ1JCIiwiZGVwdElEIjpudWxsLCJkZXB0TmFtZSI6bnVsbCwic3RhZmZJRCI6bnVsbCwibmFtZSI6bnVsbCwiYXVkIjoiaHR0cHM6Ly9zaGNzLnNlcnVtcy5jcy5zdC1hbmRyZXdzLmFjLnVrLyJ9.5BRjOT7wN07OI4kItX2nPXnGmzMALcDlpOn0LRdxGCU',
@@ -5,3 +7,65 @@ jwts = {
 }
 
 jwt = jwts['zmc']
+print(jwt)
+
+def validate_jwt(jwt):
+    url = "https://authentication.serums.cs.st-andrews.ac.uk/ua/verify_jwt/"
+    payload = ""
+    headers = {
+        "Authorization": f"Bearer {jwt}",
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.request("POST", url, headers=headers, data=payload)
+        if response.status_code == 200:
+            return {"status_code": response.status_code, "body": response.json()}
+        else:
+            return {"status_code": response.status_code, "body": response.text}
+    except Exception as e:
+        print("Failed to make request. Reason: {}​".format(str(e)))
+
+response = validate_jwt(jwt)
+print(response)
+
+def get_rules(jwt):
+    url = 'http://localhost:30001/v1/api/getRules'
+    headers = {
+        "Authorization": f"Bearer {jwt}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        # "filters": [{"filterType": "NOT_EXPIRED"}]
+        "filters": [{
+                "filterType": "SIMPLE",
+                "key": "grantor.id",
+                "value": "david@acc.com"
+            }
+        ]
+    }
+    response = requests.request('POST', url, headers=headers, json=data)
+    print(response.text)
+
+allow_rule = {
+        "grantor": {
+            "type": "INDIVIDUAL",
+            "id": "david@acc.com"
+        },
+        "grantee": {
+            "type": "INDIVIDUAL",
+            "id": "department2.acn@zmc.nl",
+            "orgId": "ZMC"
+        },
+        "access": [
+            {
+                "name": "Brain"
+            }
+        ],
+        "expires": "2022-07-13T19:55:00.000Z",
+        "action": "ALLOW"
+    }
+
+def create_rule(jwt, rule):
+    pass
+    
+get_rules(jwt)
