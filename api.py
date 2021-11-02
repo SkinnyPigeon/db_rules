@@ -4,7 +4,7 @@ from jwt_functions import get_jwt, validate_jwt, password, patient_emails, staff
 from adding_and_removing_rules import create_rule, del_rule
 from staff_tables import get_staff_tables, check_staff_member
 
-response = get_jwt(patient_emails['zmc'], password)
+response = get_jwt(staff_emails['zmc'], password)
 print(response)
 jwt = response['body']['resource_obj']['access']
 print(validate_jwt(jwt))
@@ -17,7 +17,6 @@ staff_response = check_staff_member(jwt)
 # print(staff_response)
 
 # check_staff_member(jwt, hospital='ZMC')
-
 
 
 def get_rules(jwt, grantor_id, grantee_id):
@@ -94,20 +93,60 @@ body = {
     'serums_id': 118
 }
 
+def get_rules_for_doctor(jwt, grantor_id, serums_and_department_ids):
+    response = []
+    url = 'http://localhost:30001/v1/api/getRules'
+    headers = {
+        "Authorization": f"Bearer {jwt}",
+        "Content-Type": "application/json"
+    }
+    for id in serums_and_department_ids:
+        data = {
+            "filters": [
+                {
+                    "filterType": "SIMPLE",
+                    "key": "grantor.id",
+                    "value": grantor_id
+                },
+                {
+                    "filterType": "NOT_EXPIRED"
+                },
+                {
+                    "filterType": "SIMPLE",
+                    "key": "grantee.id",
+                    "value": serums_and_department_ids[id]
+                }
+
+            ]
+        }
+        rule_response = requests.request('POST', url, headers=headers, json=data)
+        print(rule_response.json())
+    return response
+
+
 def validate_rules(jwt, body):
     tags = []
     jwt_response = validate_jwt(jwt)
     requestor_type = jwt_response['body']['groupIDs']
     if validate_patient(requestor_type):
         print('PATIENT')
-        print(jwt_response)
         if jwt_response['status_code'] == 200:
             if body['serums_id'] == jwt_response['body']['userID']:
                 tags = ['all']
-    elif validate_admin(requestor_type):
-        print('ADMIN')
     elif validate_doctor(requestor_type):
         print('DOCTOR')
+        """ This is where we should grab the serums_id and department_id of the doctor.
+            A full set of rules should be grabbed for both and concatenated into a single list
+            These should then be summed and returned
+        """
+        serums_and_department_ids = check_staff_member(jwt)
+        get_rules_for_doctor(jwt, body['serums_id'], serums_and_department_ids)
+        print(serums_and_department_ids)
+
+
+    # elif validate_admin(requestor_type):
+    # Don't know what to do about admins
+    #     print('ADMIN')
     return tags
 
 tags = validate_rules(jwt, body)
