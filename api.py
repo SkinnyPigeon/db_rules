@@ -26,15 +26,47 @@ def validate_jwt(jwt):
     except Exception as e:
         print("Failed to make request. Reason: {}​".format(str(e)))
 
-response = validate_jwt(jwt)
-print(response)
+# response = validate_jwt(jwt)
+# print(response)
 
 def create_rule(jwt, rule):
-    pass
+    url = "http://localhost:30001/v1/api/rule"
+    headers = {
+        "Authorization": f"Bearer {jwt}",
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.request("POST", url, headers=headers, json=rule)
+        if response.status_code == 200:
+            return {"status_code": response.status_code, "body": response.json()}
+        else:
+            return {"status_code": response.status_code, "body": response.text}
+    except Exception as e:
+        print("Failed to make request. Reason: {}​".format(str(e)))
+
+# rule_id = create_rule(jwt, deny_rule)
+# print(rule_id)
+
+allow_rule_id = 'RULE_8e87c6bb-1166-4463-86b9-a8536c917a5c'
+deny_rule_id = 'RULE_f11f763b-b32d-4104-8c70-b39f39d9656f'
 
 def del_rule(jwt, rule_id):
-    pass
+    url = f"http://localhost:30001/v1/api/rule/{rule_id}"
+    headers = {
+        "Authorization": f"Bearer {jwt}",
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.delete(url, headers=headers)
+        if response.status_code == 200:
+            return {"status_code": response.status_code, "body": response.json()}
+        else:
+            return {"status_code": response.status_code, "body": response.text}
+    except Exception as e:
+        print("Failed to make request. Reason: {}​".format(str(e)))
 
+# deleted_rule = del_rule(jwt, deny_rule_id)
+# print(deleted_rule)
 
 def get_rules(jwt):
     url = 'http://localhost:30001/v1/api/getRules'
@@ -46,8 +78,17 @@ def get_rules(jwt):
         "filters": [{
                 "filterType": "SIMPLE",
                 "key": "grantor.id",
-                "value": "david@acc.com"
+                "value": "118"
+            },
+            {
+                "filterType": "NOT_EXPIRED"
+            },
+            {
+                "filterType": "SIMPLE",
+                "key": "grantee.id",
+                "value": "271"
             }
+
         ]
     }
     response = requests.request('POST', url, headers=headers, json=data)
