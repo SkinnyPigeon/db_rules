@@ -1,4 +1,5 @@
 import requests
+from rules import allow_rule, deny_rule
 
 jwts = {
     'ustan': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM2NDQ1ODczLCJqdGkiOiIyZGU4MTYxZGVkNjc0OGFiYjNmMzM0ZDdmMjBhOTA2ZSIsInVzZXJJRCI6MTE3LCJpc3MiOiJTZXJ1bXNBdXRoZW50aWNhdGlvbiIsImlhdCI6MTYzNTg0MTA3Mywic3ViIjoicHBwMUB1c3Rhbi5jb20iLCJncm91cElEcyI6WyJQQVRJRU5UIl0sIm9yZ0lEIjoiVVNUQU4iLCJkZXB0SUQiOm51bGwsImRlcHROYW1lIjpudWxsLCJzdGFmZklEIjpudWxsLCJuYW1lIjpudWxsLCJhdWQiOiJodHRwczovL3NoY3Muc2VydW1zLmNzLnN0LWFuZHJld3MuYWMudWsvIn0.ENfiS5_mSIuvvrKEfTPDC9sQjZQb63L_FLix2Gk58_Q',
@@ -28,6 +29,13 @@ def validate_jwt(jwt):
 response = validate_jwt(jwt)
 print(response)
 
+def create_rule(jwt, rule):
+    pass
+
+def del_rule(jwt, rule_id):
+    pass
+
+
 def get_rules(jwt):
     url = 'http://localhost:30001/v1/api/getRules'
     headers = {
@@ -35,7 +43,6 @@ def get_rules(jwt):
         "Content-Type": "application/json"
     }
     data = {
-        # "filters": [{"filterType": "NOT_EXPIRED"}]
         "filters": [{
                 "filterType": "SIMPLE",
                 "key": "grantor.id",
@@ -46,26 +53,5 @@ def get_rules(jwt):
     response = requests.request('POST', url, headers=headers, json=data)
     print(response.text)
 
-allow_rule = {
-        "grantor": {
-            "type": "INDIVIDUAL",
-            "id": "david@acc.com"
-        },
-        "grantee": {
-            "type": "INDIVIDUAL",
-            "id": "department2.acn@zmc.nl",
-            "orgId": "ZMC"
-        },
-        "access": [
-            {
-                "name": "Brain"
-            }
-        ],
-        "expires": "2022-07-13T19:55:00.000Z",
-        "action": "ALLOW"
-    }
-
-def create_rule(jwt, rule):
-    pass
-    
 get_rules(jwt)
+    
