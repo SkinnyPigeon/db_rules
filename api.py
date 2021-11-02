@@ -46,8 +46,8 @@ def get_rules(jwt, grantor_id, grantee_id):
     response = requests.request('POST', url, headers=headers, json=data)
     return response.json()
 
-check = get_rules(jwt, 118, 270)
-print(check)
+# check = get_rules(jwt, 118, 270)
+# print(check)
 
 def sum_up_rules(rules):
     allow_tags = set()
@@ -120,7 +120,7 @@ def get_rules_for_doctor(jwt, grantor_id, serums_and_department_ids):
             ]
         }
         rule_response = requests.request('POST', url, headers=headers, json=data)
-        print(rule_response.json())
+        response.extend(rule_response.json())
     return response
 
 
@@ -140,9 +140,8 @@ def validate_rules(jwt, body):
             These should then be summed and returned
         """
         serums_and_department_ids = check_staff_member(jwt)
-        get_rules_for_doctor(jwt, body['serums_id'], serums_and_department_ids)
-        print(serums_and_department_ids)
-
+        rules = get_rules_for_doctor(jwt, body['serums_id'], serums_and_department_ids)
+        tags = sum_up_rules(rules)
 
     # elif validate_admin(requestor_type):
     # Don't know what to do about admins
