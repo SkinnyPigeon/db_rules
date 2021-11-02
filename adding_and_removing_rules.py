@@ -29,6 +29,7 @@ allow_rule_id_2 = 'RULE_8985ec49-b6d8-4054-8556-8d41ece8890e'
 allow_rule_id_3 = 'RULE_2a95ab90-fcee-4801-8f90-55dae9550292'
 deny_rule_id = 'RULE_f11f763b-b32d-4104-8c70-b39f39d9656f'
 deny_rule_id_2 = 'RULE_80cee90a-3414-4505-818c-822844baa842'
+allow_department_id = 'RULE_c2082153-b5cf-4c67-8a85-036c973dd8d3'
 
 def del_rule(jwt, rule_id):
     url = f"http://localhost:30001/v1/api/rule/{rule_id}"
