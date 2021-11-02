@@ -1,9 +1,10 @@
 import requests
 from rules import allow_rule, deny_rule, allow_rule_2, allow_rule_3
 from jwt_functions import get_jwt, validate_jwt, password, patient_emails, staff_emails, admin_emails
+from adding_and_removing_rules import create_rule, del_rule
 
 jwt = get_jwt(patient_emails['zmc'], password)
-jwt_decoded = validate_jwt(jwt)
+jwt_decoded = validate_jwt(jwt['body']['resource_obj']['access'])
 print(jwt_decoded)
 
 def get_rules(jwt, grantor_id, grantee_id):

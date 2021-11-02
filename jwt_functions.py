@@ -39,8 +39,8 @@ def get_jwt(user, password):
     except Exception as e:
         print("Failed to make request. Reason: {}​".format(str(e)))
 
-jwt = get_jwt(staff_emails['ustan'], password)
-print(jwt)
+# jwt = get_jwt(staff_emails['ustan'], password)
+# print(jwt)
 
 
 def validate_jwt(jwt):
@@ -59,5 +59,5 @@ def validate_jwt(jwt):
     except Exception as e:
         print("Failed to make request. Reason: {}​".format(str(e)))
 
-jwt_body = validate_jwt(jwt['body']['resource_obj']['access'])
-print(jwt_body)
+# jwt_body = validate_jwt(jwt['body']['resource_obj']['access'])
+# print(jwt_body)
