@@ -17,6 +17,47 @@ allow_rule = {
         "action": "ALLOW"
     }
 
+allow_rule_2 = {
+        "grantor": {
+            "type": "INDIVIDUAL",
+            "id": "118"
+        },
+        "grantee": {
+            "type": "INDIVIDUAL",
+            "id": "270",
+            "orgId": "ZMC"
+        },
+        "access": [
+            {
+                "name": "diagnostic"
+            },
+            {
+                "name": "operations"
+            }
+        ],
+        "expires": "2022-07-13T19:55:00.000Z",
+        "action": "ALLOW"
+    }
+
+allow_rule_3 = {
+        "grantor": {
+            "type": "INDIVIDUAL",
+            "id": "118"
+        },
+        "grantee": {
+            "type": "INDIVIDUAL",
+            "id": "270",
+            "orgId": "ZMC"
+        },
+        "access": [
+            {
+                "name": "patient_address"
+            }
+        ],
+        "expires": "2022-07-13T19:55:00.000Z",
+        "action": "ALLOW"
+    }
+
 deny_rule = {
         "grantor": {
             "type": "INDIVIDUAL",
@@ -24,7 +65,7 @@ deny_rule = {
         },
         "grantee": {
             "type": "INDIVIDUAL",
-            "id": "271",
+            "id": "270",
             "orgId": "ZMC"
         },
         "access": [
