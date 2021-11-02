@@ -4,10 +4,10 @@ from jwt_functions import get_jwt, validate_jwt, password, patient_emails, staff
 from adding_and_removing_rules import create_rule, del_rule
 from staff_tables import get_staff_tables, check_staff_member
 
-response = get_jwt(staff_emails['zmc'], password)
+response = get_jwt(patient_emails['zmc'], password)
 print(response)
 jwt = response['body']['resource_obj']['access']
-# print(validate_jwt(jwt))
+print(validate_jwt(jwt))
 
 # response = create_rule(jwt, allow_department_rule)
 # print(response)
@@ -18,7 +18,7 @@ staff_response = check_staff_member(jwt)
 
 # check_staff_member(jwt, hospital='ZMC')
 
-# def validate_rules(jwt)
+
 
 def get_rules(jwt, grantor_id, grantee_id):
     url = 'http://localhost:30001/v1/api/getRules'
@@ -89,3 +89,26 @@ def validate_patient(group_ids):
 
 # check = validate_doctor(jwt['body']['groupIDs'])
 # print(check)
+
+body = {
+    'serums_id': 118
+}
+
+def validate_rules(jwt, body):
+    tags = []
+    jwt_response = validate_jwt(jwt)
+    requestor_type = jwt_response['body']['groupIDs']
+    if validate_patient(requestor_type):
+        print('PATIENT')
+        print(jwt_response)
+        if jwt_response['status_code'] == 200:
+            if body['serums_id'] == jwt_response['body']['userID']:
+                tags = ['all']
+    elif validate_admin(requestor_type):
+        print('ADMIN')
+    elif validate_doctor(requestor_type):
+        print('DOCTOR')
+    return tags
+
+tags = validate_rules(jwt, body)
+print(tags)
